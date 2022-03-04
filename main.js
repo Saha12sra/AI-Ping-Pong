@@ -1,5 +1,7 @@
 
 /*created by prashant shukla */
+rightWristX=0;
+rightWristY=0;
 
 var paddle2 =10,paddle1=10;
 
@@ -23,10 +25,18 @@ var ball = {
 
 function setup(){
   var canvas =  createCanvas(700,600);
+  video=createCapture(VIDEO);
+  video.size(700,600);
+  video.parent(canvas);
+  poseNet= ml5.poseNet(video, modeLoaded);
+  poseNet.on('pose',gotPoses);
+  
 }
 
 
 function draw(){
+
+  image(video,0,0, 700, 600);
 
  background(0); 
 
@@ -65,9 +75,24 @@ function draw(){
    
    //function move call which in very important
     move();
+
 }
 
+function modeLoaded(){
+  console.log("model has loaded");
+}
 
+function gotPoses(results){
+
+  if(results.length>0){
+    console.log(results);
+    rightWristX=results[0].pose.rightWrist.x;
+    rightWristY=results[0].pose.rightWrist.y;
+    console.log(rightWristX);
+    console.log(rightWristY);
+    console.log(rightWristX= "+rightWristX+", rightWristY= "+rightWristY");
+  }
+}
 
 //function reset when ball does notcame in the contact of padde
 function reset(){
