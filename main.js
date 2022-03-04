@@ -2,6 +2,10 @@
 /*created by prashant shukla */
 rightWristX=0;
 rightWristY=0;
+scoreRightWrist = 0;
+
+
+game_status = "";
 
 var paddle2 =10,paddle1=10;
 
@@ -23,22 +27,25 @@ var ball = {
     dy:3
 }
 
+
 function setup(){
   var canvas =  createCanvas(700,600);
   video=createCapture(VIDEO);
   video.size(700,600);
-  video.parent(canvas);
-  poseNet= ml5.poseNet(video, modeLoaded);
+canvas.parent('canvas');
+  poseNet= ml5.poseNet(video, modelLoaded);
   poseNet.on('pose',gotPoses);
-  
+
 }
 
 
 function draw(){
 
-  image(video,0,0, 700, 600);
-
  background(0); 
+ image(video,0,0, 700, 600);
+ fill(255,0,0);
+ stroke(255,0,0);
+ circle(rightWristX, rightWristY, 20);
 
  fill("black");
  stroke("black");
@@ -76,9 +83,16 @@ function draw(){
    //function move call which in very important
     move();
 
+    
 }
 
-function modeLoaded(){
+function startGame()
+{
+  game_status = "start";
+  document.getElementById("status").innerHTML = "Game Is Loading";
+}
+
+function modelLoaded(){
   console.log("model has loaded");
 }
 
