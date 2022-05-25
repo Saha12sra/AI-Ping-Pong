@@ -41,6 +41,8 @@ canvas.parent('canvas');
 
 function draw(){
 
+  if(game_status== "start")
+
  background(0); 
  image(video,0,0, 700, 600);
  fill(255,0,0);
