@@ -1,9 +1,14 @@
-
-/*created by prashant shukla */
 rightWristX=0;
 rightWristY=0;
 scoreRightWrist = 0;
 
+function preload() {
+
+  ball_touch_paddle= loadSound("ball_touch_paddel.wav");
+missed_ball=loadSound("missed.wav");
+}
+
+/*created by prashant shukla */
 
 game_status = "";
 
@@ -64,7 +69,7 @@ function draw(){
    fill(250,0,0);
     stroke(0,0,250);
     strokeWeight(0.5);
-   paddle1Y = mouseY; 
+   paddle1Y = rightWristY; 
    rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
    
    
@@ -157,14 +162,23 @@ function move(){
    }
   if (ball.x-2.5*ball.r/2< 0){
   if (ball.y >= paddle1Y&& ball.y <= paddle1Y + paddle1Height) {
+    ball_touch_paddle.wav.play();
     ball.dx = -ball.dx+0.5; 
   }
   else{
+    missed.wav.play();
     pcscore++;
     reset();
     navigator.vibrate(100);
   }
 }
+
+function restart(){
+pcscore=0;
+playerscore=0;
+loop();
+}
+
 if(pcscore ==4){
     fill("#FFA500");
     stroke(0)
@@ -173,7 +187,7 @@ if(pcscore ==4){
     stroke("white");
     textSize(25)
     text("Game Over!☹☹",width/2,height/2);
-    text("Reload The Page!",width/2,height/2+30)
+    text("Press restart button to play again",width/2,height/2+30)
     noLoop();
     pcscore = 0;
 }
